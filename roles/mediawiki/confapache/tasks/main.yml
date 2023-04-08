@@ -1,0 +1,53 @@
+---
+- name: "add kenjy"
+  command:
+    usermod -a -G www-data kenjy
+
+- name: "mediawiki directory"
+  file:
+    path: "{{mediawiki_directory}}"
+    owner: "www-data"
+    group: "www-data"
+    state: directory
+
+- name: "uncompress mediawiki archive"
+  unarchive:
+    src: "{{mediawi_archive_url}}"
+    dest: "{{{mediawiki_directory}}}"
+    owner: "www-data"
+    group: "www-data"
+    remote_src: yes
+
+- name: "add g+w on mediawiki directory"
+  command:
+    chmod -R g+w {{mediawiki_directory}}
+
+- name: "mediawiki configuration"
+  become: true
+  become_user: "kenjy"
+  args:
+    create: "{{mediawiki_directory}}/LocalSettings.php"
+    chdir: "{{mediawiki_maintenance_directory}}"
+  command:
+    php install.php --scriptpath /{{mediawiki_name}}
+    -- dbname mediawiki --lang fr
+    --dbuser {{mediawiki_db_user}}
+    --dbpass {{mediawiki_db_password}}
+    --pass {{mediawiki_admin_password}}
+    --dbserver {{mediawiki_db_host}}
+    --server http://http1 
+    {{mediawiki_title}} {{mediawiki_admi_user}}
+  run_once: true
+  delegate_to: "{{item}}"
+  with_items: "{{groups.apache}}"
+
+- name: "mediawiki_db_update"
+  become: true
+  become_user: "kenjy"
+  command:
+    php update.php --quick
+  args:
+    chdir: "{{mediawiki_maintenance_directory}}"
+  run_once: true
+  register: resultat
+  changed_when: "' ...done.' in resultat.stdout"
