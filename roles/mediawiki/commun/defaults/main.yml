@@ -27,4 +27,3 @@ mediawiki_db_host: "{{groups.db.0}}"
 
 #URL of mediawiki sources
 mediawiki_archive_url: "https://releases.wikimedia.org/mediawiki/1.39/mediawiki-1.39.3.tar.gz"
-
