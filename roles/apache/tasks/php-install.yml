@@ -6,4 +6,3 @@
     state: latest
   changed_when: yes
   notify: ["apache restart"]
-
