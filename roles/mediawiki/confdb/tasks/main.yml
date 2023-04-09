@@ -1,6 +1,6 @@
 ---
 - name: "mediawiki database"
-  community.mysql.mysqldb:
+  community.mysql.mysql_db:
     name: "{{mediawiki_db_name}}"
     state: present
 
