@@ -1,5 +1,5 @@
 ---
-#1. Cette tache installe PHP et ses extensions
+#1. Install PHP packages and extensions
 - name: "install php packages"
   apt:
     name: "php, php-mysql, php-xml, php-mbstring, php-intl" 

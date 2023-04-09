@@ -4,13 +4,13 @@ mediawiki_db_name: "mediawiki"
 
 #User & Password
 mediawiki_db_user: "mediawiki"
-mediawiki_db_password: "AnsibleOC!"
+mediawiki_db_password: "[your_password]"
 mediawiki_admin_user: "admin"
-mediawiki_admin_password: "AnsibleOC!"
+mediawiki_admin_password: "[your_admin_password]"
 
 #Mediawiki name and title
 mediawiki_name: "mediawiki" 
-mediawiki_title: "Mon super Mediawiki!"
+mediawiki_title: "My Mediawiki!"
 
 #Installation directory
 mediawiki_directory: "/var/www/html/{{mediawiki_name}}"

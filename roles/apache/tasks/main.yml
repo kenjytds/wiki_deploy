@@ -1,18 +1,18 @@
 ---
-#1. Cette tache permet d'installer Apache (httpd) a l'aide du module apt
+#1. Install Apache module
 - name: "apache installation"
   apt:
     name: "apache2"
     state: "present"
 
-#2. Cette tache active le service Apache
+#2. Enable apache service
 - name: "apache service activation"
   service:
     name: "apache2"
     state: "started"
     enabled: yes
 
-#3. Cette tache fait appel a un autre fichier de configuration pour installer PHP. Elle est executable uniquement si la variable php_install est vraie (par defaut, elle est fausse)
+#3. Call php-install.yml if php not install yet
 - name: "install php packages"
   include: "php-install.yml"
   when: php_install|default(False)|bool

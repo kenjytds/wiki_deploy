@@ -1,5 +1,5 @@
 ---
-#1. Redemarre le service Apache
+#1. Restart Apache service
 - name: "apache restart"
   service:
     name: "apache2"
