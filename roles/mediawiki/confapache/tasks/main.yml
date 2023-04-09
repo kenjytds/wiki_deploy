@@ -12,11 +12,12 @@
 
 - name: "uncompress mediawiki archive"
   unarchive:
-    src: "{{mediawi_archive_url}}"
-    dest: "{{{mediawiki_directory}}}"
+    src: "{{mediawiki_archive_url}}"
+    dest: "{{mediawiki_directory}}"
     owner: "www-data"
     group: "www-data"
     remote_src: yes
+    extra_opts: --transform=s/mediawiki-[0-9\.]*\///
 
 - name: "add g+w on mediawiki directory"
   command:
@@ -26,20 +27,13 @@
   become: true
   become_user: "kenjy"
   args:
-    create: "{{mediawiki_directory}}/LocalSettings.php"
+    creates: "{{mediawiki_directory}}/LocalSettings.php"
     chdir: "{{mediawiki_maintenance_directory}}"
   command:
-    php install.php --scriptpath /{{mediawiki_name}}
-    -- dbname mediawiki --lang fr
-    --dbuser {{mediawiki_db_user}}
-    --dbpass {{mediawiki_db_password}}
-    --pass {{mediawiki_admin_password}}
-    --dbserver {{mediawiki_db_host}}
-    --server http://http1 
-    {{mediawiki_title}} {{mediawiki_admi_user}}
+    php install.php --scriptpath /{{mediawiki_name}} --dbname mediawiki --lang fr --dbuser {{mediawiki_db_user}} --dbpass {{mediawiki_db_password}} --pass {{mediawiki_admin_password}} --dbserver {{mediawiki_db_host}} --server http://http1 {{mediawiki_title}} {{mediawiki_admin_user}}
   run_once: true
-  delegate_to: "{{item}}"
-  with_items: "{{groups.apache}}"
+  delegate_to: "http1"
+#  with_items: "{{groups.apache}}"
 
 - name: "mediawiki_db_update"
   become: true
