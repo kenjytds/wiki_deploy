@@ -1,6 +1,6 @@
 ---
 - name: "MediaWiki db configuration"
-  host: db
+  hosts: db
   gather_facts: no
   tags: ["mariadb", "mysql"]
   roles:
